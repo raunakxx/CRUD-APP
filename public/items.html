@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Items</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .item img {
+            max-width: 100px;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Items</h2>
+        <div id="items-list">
+            <!-- Items will be dynamically added here -->
+        </div>
+    </div>
+
+    <script>
+        // Add your JavaScript code here to fetch items and dynamically add them to the items-list div
+        window.onload = function() {
+            fetch('/items')
+                .then(response => response.json())
+                .then(items => {
+                    const itemsList = document.getElementById('items-list');
+                    items.forEach(item => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.classList.add('item');
+                        itemDiv.innerHTML = `
+                            <h3>${item.name}</h3>
+                            <p>${item.description}</p>
+                            ${item.imageUrl ? `<img src="/uploads/${item.imageUrl}" alt="${item.name}">` : ''}
+                        `;
+                        itemsList.appendChild(itemDiv);
+                    });
+                })
+                .catch(error => console.error('Error fetching items:', error));
+        };
+    </script>
+</body>
+</html>
